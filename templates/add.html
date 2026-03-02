@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+    <form action="/add" method="post">
+        <input autocomplete="off" autofocus name="problem_name" placeholder="Problem name" type="text">
+        <br><br>
+
+        <select name="difficulty">
+            <option disabled selected value="">DIFFICULTY</option>
+            {% for difficulty in difficulties %}
+                <option value= "{{difficulty}}">{{difficulty}}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <label for="date_added">Date solved:</label>
+        <input type="date" name="date-added" id="date_added">
+        <br><br>
+
+        <label for="duration">Time spent (Hours: minutes):</label>
+        <input type="time" name="time-taken" id="duration">
+        <br><br>
+
+        <button type="submit">Add problem</button>
+    </form>
+{% endblock %}

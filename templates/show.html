@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h1>Finished problems</h1>
+    <div>
+        <form action="/delete_all" method="post" onsubmit="return confirm('WARNING: This will delete ALL your problems! Are you sure?');">
+            <button type="submit" style="background-color: red; color: white;">Delete all problems</button>
+        </form>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Problem name</th>
+                <th>Difficulty</th>
+                <th>Time taken</th>
+                <th>Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for problem in problem_data %}
+                <tr>
+                    <td>{{ problem[1] }}</td>
+                    <td>{{ problem[2] }}</td>
+                    <td>{{ problem[3] }}</td>
+                    <td>{{ problem[4] }}</td>
+                    <td><form action="/delete_specific/{{ problem[0] }}" method="post" onsubmit="return confirm('Delete this problem?');">
+                        <button type="submit">Delete</button>
+                    </form></td>
+                </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

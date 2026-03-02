@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h1>Welcome {{ name }}!</h1>
+    <p>Welcome back to your Dashboard. What would you like to do today?</p>
+
+    <nav>
+        <ul>
+            <li><a href="/add">Add a New Problem</a></li>
+            <li><a href="/history">View My History</a></li>
+            <li><a href="/stats">View My Stats</a></li>
+        </ul>
+    </nav>
+    
+    <a href = '/logout'>Logout</a>
+{% endblock %}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="initial-scale=1, width=device=width" charset="UTF-8">
+        <title>
+            {% block title %}Leetcode Tracker{% endblock %}
+        </title>
+    </head>
+    <body>
+        {% block home %}{% endblock %}
+        <nav>
+            <a href="/">Home</a>
+            {% if session.user_ID %}
+                <a href="/dashboard">Dashboard</a>
+                <a href="/add">Add problem</a>
+                <a href="/stats">Stats</a>
+                <a href="/history">Finished problems</a>
+                <a href="/logout">Logout</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            {% endif %}
+        </nav>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div style="background-color: #ffcccc; color: #cc0000; padding: 15px; margin-bottom: 20px; margin-top: 20px; border-radius: 5px;">
+                        <strong>Notice:</strong> {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block body %}{% endblock %}
+    </body>
+</html>

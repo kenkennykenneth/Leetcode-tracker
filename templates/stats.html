@@ -1,0 +1,15 @@
+{% extends"layout.html" %}
+{% block body %}
+    <h1>My Progress</h1>
+    <p>Total solved: <strong>{{ total }}</strong></p>
+    <hr>
+    <h3>Breakdown:</h3>
+    <ul>
+        {% for item in rows %}
+            <li>{{ item[0] }}: {{ item[1] }}</li>
+        {% endfor %}
+    </ul>
+
+    <br>
+    <a href="/">Back Home</a> 
+{% endblock %}
