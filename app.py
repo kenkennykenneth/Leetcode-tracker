@@ -41,7 +41,6 @@ def init_db():
 init_db()
 
 DIFFICULTY = ["HARD", "MEDIUM", "EASY"]
-PAGES = ["add", "show", "delete", "stats"]
 
 def login_required(f):
     @wraps(f)
