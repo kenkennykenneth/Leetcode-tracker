@@ -8,11 +8,37 @@ from functools import wraps
 app = Flask(__name__)
 app.secret_key = "super_duper_mega_hidden_security_key"
 
- # 1. Get the folder where THIS python file is located
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+#  # 1. Get the folder where THIS python file is located
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# 2. Force the database to live in that same folder
-db_path = os.path.join(BASE_DIR, 'leetcode.db')
+# # 2. Force the database to live in that same folder
+# db_path = os.path.join(BASE_DIR, 'leetcode.db')
+
+def init_db():
+    conn = sqlite3.connect('leetcode3.db')
+    pen = conn.cursor()
+    pen.execute('''
+        CREATE TABLE IF NOT EXISTS problems (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        difficulty TEXT NOT NULL,
+        time_taken INTEGER,
+        date_added TEXT
+        );
+''')
+    
+    pen.execute('''
+        CREATE TABLE IF NOT EXISTS users(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL UNIQUE,
+        hash TEXT NOT NULL
+        );
+''')
+    
+    conn.commit()
+    conn.close()
+
+init_db()
 
 DIFFICULTY = ["HARD", "MEDIUM", "EASY"]
 PAGES = ["add", "show", "delete", "stats"]
