@@ -12,7 +12,7 @@ app.secret_key = "super_duper_mega_hidden_security_key"
 # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # # 2. Force the database to live in that same folder
-# db_path = os.path.join(BASE_DIR, 'leetcode.db')
+# 'leetcode3.db' = os.path.join(BASE_DIR, 'leetcode.db')
 
 def init_db():
     conn = sqlite3.connect('leetcode3.db')
@@ -50,7 +50,7 @@ def login_required(f):
         if user_id is None:
             return redirect("/login")
         
-        conn = sqlite3.connect(db_path)
+        conn = sqlite3.connect('leetcode3.db')
         pen = conn.cursor()
         user_exists = pen.execute("SELECT username FROM users WHERE id = ?", (user_id,)).fetchone()
         if not user_exists:
@@ -68,7 +68,7 @@ def home():
 @login_required
 def dashboard():
     user_id = session.get("user_ID")
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect('leetcode3.db')
     pen = conn.cursor()
     name = pen.execute("SELECT username FROM users WHERE id = ?", (user_id,)).fetchone()
     conn.close()
@@ -106,7 +106,7 @@ def add_problem():
         minutes = int(time_split[1])
         total_time_minutes = (hours * 60) + minutes
         
-        conn = sqlite3.connect(db_path)
+        conn = sqlite3.connect('leetcode3.db')
         pen = conn.cursor()
         command = "INSERT INTO problems (name, difficulty, time_taken, date_added, user_ID) VALUES (?, ?, ?, ?, ?)"
         pen.execute(command, (problem_name, difficulty, total_time_minutes, date, user_id))
@@ -120,7 +120,7 @@ def add_problem():
 @login_required
 def show():
     user_id = session["user_ID"]
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect('leetcode3.db')
     pen = conn.cursor()
     command = "SELECT * FROM problems WHERE user_ID = ?"
     data = pen.execute(command, (user_id,)).fetchall()
@@ -130,7 +130,7 @@ def show():
 @app.route('/stats')
 def stats():
     user_id = session["user_ID"]
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect('leetcode3.db')
     pen = conn.cursor()
     total_result = pen.execute('SELECT COUNT(*) FROM problems WHERE user_ID = ?', (user_id,)).fetchone()
     TOTAL = str(total_result[0])
@@ -157,7 +157,7 @@ def register():
             return render_template("register.html")
         
         hashed_password = generate_password_hash(password)
-        conn = sqlite3.connect(db_path)
+        conn = sqlite3.connect('leetcode3.db')
         pen = conn.cursor()
 
         try:
@@ -192,7 +192,7 @@ def login():
             flash("Both fields are required")
             return render_template("login.html")
         
-        conn = sqlite3.connect(db_path)
+        conn = sqlite3.connect('leetcode3.db')
         pen = conn.cursor()
         command = "SELECT * FROM users WHERE username = ?"
         login_details = pen.execute(command, (username,)).fetchone()
@@ -217,7 +217,7 @@ def logout():
 def delete_specific(problem_id):
     if request.method == "POST":
         user = session.get("user_ID")
-        conn = sqlite3.connect(db_path)
+        conn = sqlite3.connect('leetcode3.db')
         pen = conn.cursor()
         command = "DELETE FROM problems WHERE id = ? AND user_ID = ?"
         pen.execute(command, (problem_id, user))
@@ -229,7 +229,7 @@ def delete_specific(problem_id):
 def delete_all():
     if request.method == "POST":
         user = session.get("user_ID")
-        conn = sqlite3.connect(db_path)
+        conn = sqlite3.connect('leetcode3.db')
         pen = conn.cursor()
         pen.execute("DELETE FROM problem WHERE user_ID = ?", (user,))
     return redirect('/history')
